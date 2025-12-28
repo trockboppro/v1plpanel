@@ -1,0 +1,225 @@
+{
+  "en": "Tiếng Anh",
+  "de": "Tiếng Đức",
+  "nl": "Tiếng Hà Lan",
+  "pl": "Tiếng Ba Lan",
+  "sp": "Tiếng Tây Ban Nha",
+  "in": "Tiếng Hindi",
+  "it": "Tiếng Ý",
+
+  "manageInstance": "Quản lý Instance",
+  "instanceViewDetailText": "Xem, cập nhật hoặc quản lý instance trên OverSee.",
+  "fivezerozeroInstanceError": "LỖI MÁY CHỦ 500",
+  "somethingWentWrongThere": "Hmm... Có lỗi gì đó đã xảy ra.",
+  "returnedTextError": "Đây là lỗi được trả về:",
+  "informationAvailableError": "Không có thông tin lỗi",
+
+  "updateAccount": "Cập nhật tài khoản",
+  "username": "Tên người dùng",
+  "email": "Email",
+  "currentPassword": "Mật khẩu hiện tại",
+  "newPassword": "Mật khẩu mới",
+  "updateUsername": "Cập nhật tên người dùng",
+  "update_password": "Cập nhật mật khẩu",
+
+  "enabled2FA": "Bật 2FA",
+  "disable2FA": "Tắt 2FA",
+  "enable2FATitle": "Bật xác thực hai lớp",
+  "enable2FADescription": "Bảo vệ tài khoản của bạn bằng một lớp bảo mật bổ sung.",
+
+  "checking": "Đang kiểm tra...",
+  "loading": "Đang tải...",
+  "search": "Tìm kiếm...",
+
+  "correctPassword": "✅ Chính xác!",
+  "incorrectPassword": "❌ Sai mật khẩu",
+  "usernameTaken": "❌ Đã tồn tại",
+  "usernameIsNotTaken": "✅ Có thể sử dụng",
+  "validadingpasswordError": "Lỗi kiểm tra mật khẩu",
+  "updatingUsernameError": "Lỗi cập nhật tên người dùng. Vui lòng thử lại sau.",
+  "usernameUpdatedSuccess": "Cập nhật tên người dùng thành công!",
+
+  "currentPasswordHide": "********",
+  "newPasswordHide": "********",
+
+  "authCode": "Mã xác thực",
+  "verifyCode": "Xác minh mã",
+
+  "instances": "Instances",
+  "viewInstances": "Xem các instance bạn có quyền truy cập.",
+  "manageInstanceText": "Xem, cập nhật hoặc quản lý instance trên OverSee.",
+  "createNewInstance": "Tạo instance mới",
+  "instancesText": "Danh sách tất cả instance được triển khai trên OverSee.",
+  "noInstances": "Không có instance",
+  "noInstancesText": "Tài khoản của bạn chưa có instance nào.",
+  "seeAllInstances": "Xem tất cả instance",
+  "showingYourInstances": "Instance của bạn",
+
+  "settings": "Cài đặt",
+  "changeSettings": "Thay đổi các cài đặt chung của OverSee.",
+  "settingsSaved": "Đã lưu!",
+  "settingsSaveFailed": "Lưu thất bại.",
+
+  "general": "Chung",
+  "panelName": "Tên Panel:",
+  "save": "Lưu",
+  "saveNewLogo": "Lưu logo mới",
+  "panelLogo": "Logo Panel:",
+  "uploadLogo": "Tải logo lên:",
+  "removeLogo": "Xóa logo",
+
+  "registerPage": "Trang đăng ký:",
+  "enabled": "Bật",
+  "enable": "Bật",
+  "disabled": "Tắt",
+  "disable": "Tắt",
+
+  "forceVerifyEmail": "Bắt buộc xác minh Email:",
+
+  "smtp": "SMTP",
+  "smtpServer": "Máy chủ SMTP",
+  "smtpPort": "Cổng SMTP",
+  "smtpUsername": "Tên đăng nhập SMTP",
+  "smtpPassword": "Mật khẩu SMTP",
+  "saveSmtpSettings": "Lưu cài đặt SMTP",
+  "mailFromName": "Tên người gửi",
+  "mailFromAddress": "Địa chỉ email gửi",
+  "recipientEmail": "Email người nhận",
+  "sendTestEmail": "Gửi email kiểm tra",
+  "testEmailSuccess": "Gửi email kiểm tra thành công.",
+  "testEmailFailed": "Gửi email kiểm tra thất bại.",
+
+  "usersDescription": "Danh sách tất cả người dùng trên OverSee.",
+  "createUserButton": "Tạo người dùng mới",
+  "information": "Thông tin",
+  "role": "Vai trò",
+  "verificationStatus": "Trạng thái xác minh",
+  "action": "Hành động",
+  "actions": "Hành động",
+
+  "regularUserRole": "Người dùng thường",
+  "verifiedStatus": "Đã xác minh",
+  "unverifiedStatus": "Chưa xác minh",
+
+  "error": "Lỗi",
+  "edit": "Chỉnh sửa",
+  "create": "Tạo",
+  "remove": "Xóa",
+
+  "usernamePlaceholder": "NguyenVanA",
+  "emailPlaceholder": "email@cuaban.com",
+  "passwordLabel": "Mật khẩu",
+  "passwordPlaceholder": "******",
+
+  "admin": "Quản trị viên",
+  "true": "Đúng",
+  "false": "Sai",
+
+  "account": "Tài khoản",
+  "overview": "Tổng quan",
+  "overviewText": "Tổng quan đơn giản về Panel của bạn.",
+
+  "user": "Người dùng",
+  "users": "Người dùng",
+
+  "node": "Node",
+  "nodes": "Nodes",
+  "nodesText": "Danh sách các node trên PLPANEL.",
+
+  "plugins": "Plugin",
+  "signOut": "Đăng xuất",
+
+  "accountJSON": "Tài khoản - JSON",
+  "nodesJSON": "Nodes - JSON",
+
+  "image": "Image",
+  "images": "Images",
+  "imagesText": "Danh sách các image trên OverSee.",
+  "imageDelete": "Xóa Image",
+  "imageReplace": "Thay thế Image",
+
+  "sysInfo": "Thông tin hệ thống",
+  "sysInfoText": "Bạn đang chạy OverSee phiên bản",
+
+  "newReleaseHydra1": "Phiên bản mới OverSee",
+  "newReleaseHydra2": "đã có sẵn. Vui lòng nhấn",
+  "newReleaseHydra3": "để tải về!",
+  "here": "Tại đây",
+
+  "runningLatestVersion": "Bạn đang sử dụng phiên bản mới nhất!",
+
+  "name": "Tên",
+  "dockerID": "Docker ID",
+  "volumeANDMount": "Volume / Mount",
+
+  "unsuspend": "Bỏ tạm dừng",
+  "suspend": "Tạm dừng",
+
+  "memory": "Bộ nhớ",
+  "cpuThreads": "Luồng CPU",
+  "ports": "Cổng",
+  "primaryPort": "Cổng chính",
+  "connection": "Kết nối",
+
+  "createNewNode": "Tạo node mới",
+  "configure": "Cấu hình",
+
+  "ram": "RAM",
+  "disk": "Dung lượng",
+  "cpu": "CPU",
+  "addressIP": "Địa chỉ IP",
+  "deamonPort": "Cổng Daemon",
+  "tags": "Thẻ",
+  "author": "Tác giả",
+  "dockerImage": "Docker Image",
+  "importImage": "Nhập Image",
+
+  "back": "Quay lại",
+
+  "APIKeys": "API Keys",
+  "APIKeysText": "Danh sách các API Key trên OverSee.",
+  "id": "ID",
+  "key": "Key",
+  "createdAt": "Ngày tạo",
+  "createNewAPIKey": "Tạo API Key mới",
+  "clickToConfirmCreation": "Nhấn để xác nhận tạo",
+
+  "auditLogs": "Nhật ký kiểm toán",
+  "auditLogsText": "Lịch sử hành động của quản trị viên.",
+  "auditLogsNotAvailable": "Không có nhật ký.",
+
+  "timestamp": "Thời gian",
+  "you": "Bạn",
+  "address": "Địa chỉ",
+  "identifier": "Định danh",
+
+  "connectionFailure": "Lỗi kết nối",
+  "connectionFailureText": "Node của instance này đang gặp sự cố. Vui lòng chờ...",
+
+  "SendACommand": "Gửi lệnh...",
+  "status": "Trạng thái",
+
+  "ramUsage": "Sử dụng RAM",
+  "cpuUsage": "Sử dụng CPU",
+  "diskUsage": "Sử dụng dung lượng",
+
+  "start": "Khởi động",
+  "stop": "Dừng",
+  "restart": "Khởi động lại",
+
+  "created": "ĐÃ TẠO!",
+  "apiKeySuccessCreated": "API Key đã được tạo thành công.",
+  "apiKeyErrorDelete": "Lỗi xóa API Key",
+
+  "editUser": "Chỉnh sửa người dùng",
+  "editUserDetails": "Chỉnh sửa thông tin người dùng được chọn.",
+  "userCreatedSuccess": "Tạo người dùng thành công",
+  "userDeletingError": "Lỗi xóa người dùng",
+  "userDeletingConfirmation": "Bạn có chắc chắn muốn xóa người dùng này?",
+  "userCannotDelete": "Không thể xóa người dùng hiện tại.",
+  "databaseCannotDelete": "Không thể xóa người dùng duy nhất trong hệ thống.",
+  "userCreateError": "Lỗi tạo người dùng",
+
+  "saveChanges": "Lưu thay đổi",
+  "jsonSelectFile": "Vui lòng chọn file JSON."
+}
