@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= name %> – 2FA</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://cdn.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'General Sans', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="h-full bg-[#0b0d10] text-gray-300">
+<div class="min-h-screen flex">
+
+  <!-- LEFT -->
+  <div class="flex flex-1 items-center justify-center px-6 lg:px-20">
+    <div class="w-full max-w-sm bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8">
+
+      <% if (logo == true) { %>
+        <img class="h-12 mb-6 mx-auto" src="../assets/logo.png">
+      <% } %>
+
+      <h2 class="text-3xl font-semibold text-white text-center">
+        Two-Factor Authentication
+      </h2>
+      <p class="mt-2 text-sm text-gray-400 text-center">
+        Enter the 6-digit code from your authenticator app
+      </p>
+
+      <form action="/2fa" method="POST" class="mt-8 space-y-6">
+
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">Authentication Code</label>
+          <input
+            type="text"
+            name="token"
+            placeholder="000000"
+            required
+            maxlength="6"
+            class="w-full text-center tracking-[0.4em] text-lg font-semibold
+                   rounded-xl bg-white/10 border border-white/20
+                   px-4 py-3 text-white placeholder-gray-500
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500
+                   transition"
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 rounded-xl font-semibold text-black
+                 bg-gradient-to-r from-yellow-400 to-amber-500
+                 hover:from-yellow-500 hover:to-amber-600
+                 transition transform hover:scale-[1.02] shadow-lg"
+        >
+          Verify Code
+        </button>
+
+        <% if (req.query.err && req.query.err == "InvalidAuthCode") { %>
+          <p class="text-sm text-red-400 text-center">
+            Invalid authentication code
+          </p>
+        <% } %>
+
+      </form>
+
+      <p class="mt-6 text-xs text-gray-500 text-center">
+        Having trouble? Contact support
+      </p>
+
+    </div>
+  </div>
+
+  <!-- RIGHT IMAGE -->
+  <div class="hidden lg:block relative flex-1">
+    <img
+      class="absolute inset-0 h-full w-full object-cover brightness-75"
+      src="https://i.imgur.com/IYpZHWi.jpeg"
+      alt="Background"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0b0d10] to-transparent"></div>
+  </div>
+
+</div>
+</body>
+</html>

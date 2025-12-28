@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= name %> | 404</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <meta name="description" content="404 Page Not Found">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+
+<body
+  style="font-family: 'IBM Plex Sans'"
+  class="h-full bg-[#0f0d08] text-yellow-200">
+
+  <div class="flex items-center justify-center min-h-screen px-6">
+
+    <div
+      class="text-center bg-[#14110a] p-10 rounded-3xl
+             border border-yellow-500/20
+             shadow-2xl shadow-yellow-500/10">
+
+      <!-- 404 -->
+      <h1
+        class="mb-4 text-7xl lg:text-9xl font-bold
+               text-yellow-400 tracking-tight">
+        404
+      </h1>
+
+      <p
+        class="mb-3 text-3xl md:text-4xl font-semibold
+               text-yellow-300">
+        Something's missing.
+      </p>
+
+      <p class="mb-6 text-lg text-yellow-400/70">
+        Sorry, we can't find that page.
+      </p>
+
+      <!-- Button -->
+      <a
+        href="../"
+        class="inline-flex items-center justify-center
+               px-6 py-2.5 rounded-xl
+               font-medium text-neutral-900
+               bg-yellow-400 hover:bg-yellow-500
+               transition-all duration-300
+               hover:scale-95
+               shadow-lg shadow-yellow-500/30">
+
+        Back to <%= name %>
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

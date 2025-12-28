@@ -1,0 +1,142 @@
+<div>
+  <%- include('./components/template') %>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.css"
+    integrity="sha512-MpdEaY2YQ3EokN6lCD6bnWMl5Gwk7RjBbpKLovlrH6X+DRokrPRAF3zQJl1hZUiLXfo2e9MrOt+udOnHCAmi5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <main class="flex-grow container mx-auto px-4 py-8">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center w-full mx-auto pb-4">
+      <div class="flex flex-col">
+        <h1 class="text-xl text-yellow-400 font-semibold mb-0.5" style="font-family: 'Cabin';">
+          Create Server
+        </h1>
+        <p class="text-yellow-400/70 text-md">
+          Deploy a new server on <%= name %>!
+        </p>
+      </div>
+
+      <!-- Breadcrumb -->
+      <nav class="inline-flex py-2 px-4 rounded-xl bg-[#1c1a12] border border-yellow-500/20">
+        <ol class="flex items-center space-x-2 text-sm">
+          <li class="flex items-center gap-2 text-yellow-400/70 hover:text-yellow-300">
+            <span>Home</span>
+          </li>
+          <li class="text-yellow-500/50">›</li>
+          <li class="text-yellow-300 font-medium">
+            Create Server
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Form -->
+    <div class="max-w-4xl mx-auto p-8 bg-[#27292e] rounded-xl shadow-lg border border-yellow-500/20">
+      <form id="createServerForm" class="space-y-8">
+
+        <!-- Inputs -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <% const inputClass = "w-full rounded-lg bg-[#1c1a12] text-white border border-yellow-500/30 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 placeholder-yellow-200/40 transition px-4 py-2"; %>
+
+          <div>
+            <label class="block text-sm font-medium text-yellow-400 mb-2">Server Name</label>
+            <input id="name" placeholder="my-awesome-server" class="<%= inputClass %>">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-yellow-400 mb-2">RAM (MB)</label>
+            <input id="memory" type="number" value="4096" class="<%= inputClass %>">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-yellow-400 mb-2">CPU (cores)</label>
+            <input id="cpu" type="number" value="1" class="<%= inputClass %>">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-yellow-400 mb-2">Disk (GB)</label>
+            <input id="disk" type="number" value="10" class="<%= inputClass %>">
+          </div>
+        </div>
+
+        <!-- Node -->
+        <div>
+          <label class="block text-sm font-medium text-yellow-400 mb-2">Node</label>
+          <select id="node" class="<%= inputClass %>">
+            <% nodes.forEach(node => { %>
+              <option value="<%= node.id %>"><%= node.name %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- Image -->
+        <div>
+          <label class="block text-sm font-medium text-yellow-400 mb-2">Image</label>
+          <select id="image" onchange="updateImageName()"
+            class="<%= inputClass %>">
+            <% images.forEach(image => { %>
+              <option value="<%= image.Image %>" data-variables='<%= JSON.stringify(image.Variables) %>'>
+                <%= image.Name %>
+              </option>
+            <% }) %>
+          </select>
+          <input type="hidden" id="imageName">
+        </div>
+
+        <!-- Variables -->
+        <div id="variablesContainer" class="grid grid-cols-1 gap-3"></div>
+
+        <!-- Submit -->
+        <div class="flex justify-end">
+          <button onclick="submitForm()" type="button"
+            class="px-6 py-3 rounded-full bg-yellow-500 text-neutral-900 font-medium
+                   hover:bg-yellow-600 transition
+                   focus:ring-2 focus:ring-yellow-400">
+            Create Server
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+
+<script>
+function updateImageName() {
+  const select = document.getElementById("image");
+  document.getElementById("imageName").value =
+    select.options[select.selectedIndex].text;
+  checkVariables();
+}
+
+function checkVariables() {
+  const select = document.getElementById("image");
+  const vars = JSON.parse(select.options[select.selectedIndex].dataset.variables || '{}');
+  const container = document.getElementById("variablesContainer");
+  container.innerHTML = '';
+
+  Object.entries(vars).forEach(([k, v]) => {
+    const i = document.createElement('input');
+    i.id = k;
+    i.placeholder = `${k} (default: ${v.default || ''})`;
+    i.className =
+      "rounded-lg bg-[#1c1a12] text-white border border-yellow-500/30 px-4 py-2 focus:ring-yellow-500";
+    container.appendChild(i);
+  });
+}
+
+function submitForm() {
+  const params = new URLSearchParams({
+    name: name.value,
+    image: image.value,
+    imageName: imageName.value,
+    ram: memory.value,
+    cpu: cpu.value,
+    nodeId: node.value,
+    user: "<%= user.userId %>"
+  });
+  location.href = `/create?${params.toString()}`;
+}
+</script>

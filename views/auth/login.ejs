@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= name %> – Login</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'General Sans', sans-serif;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#0a0c0f] text-gray-300 relative overflow-hidden">
+
+  <!-- Background glow -->
+  <div class="absolute inset-0">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-yellow-500/20 blur-[140px]"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-amber-600/10 blur-[120px]"></div>
+  </div>
+
+  <main class="relative z-10 flex items-center justify-center min-h-screen px-6">
+    <div class="fade-in w-full max-w-md rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl p-8">
+
+      <!-- Logo -->
+      <div class="flex justify-center mb-6 fade-in">
+        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke-width="1.8" stroke="currentColor" class="w-8 h-8 text-black">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="fade-in text-center text-3xl font-bold text-white">
+        Welcome back
+      </h1>
+      <p class="fade-in text-center text-gray-400 mt-2">
+        Sign in to manage your server
+      </p>
+
+      <!-- Form -->
+      <form method="POST" action="/auth/login" class="fade-in mt-8 space-y-4">
+
+        <div>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username or Email"
+            required
+            class="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3
+                   text-white placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500
+                   transition"
+          />
+        </div>
+
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            class="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3
+                   text-white placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500
+                   transition"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-lg py-3 font-semibold text-black
+                 bg-gradient-to-r from-yellow-400 to-amber-500
+                 hover:from-yellow-500 hover:to-amber-600
+                 transition transform hover:scale-[1.02] shadow-lg"
+        >
+          Sign In
+        </button>
+      </form>
+
+      <!-- Links -->
+      <div class="fade-in mt-6 text-center text-sm text-gray-400 space-y-2">
+        <p>
+          Don’t have an account?
+          <a href="/register" class="text-yellow-400 hover:text-yellow-300 font-medium">
+            Register
+          </a>
+        </p>
+        <p>
+          <a href="/forgot-password" class="hover:text-yellow-300 transition">
+            Forgot password?
+          </a>
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    gsap.to(".fade-in", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power3.out"
+    });
+  </script>
+
+</body>
+</html>

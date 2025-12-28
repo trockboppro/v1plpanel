@@ -1,0 +1,141 @@
+<%- include('./components/template') %>
+
+<main
+  class="flex-grow container mx-auto px-6 py-8 animate-fade-in"
+  x-data="store()">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center w-full pb-6">
+
+    <div class="flex flex-col">
+      <h1 class="text-2xl font-bold text-yellow-400 font-[Cabin]">
+        Store
+      </h1>
+      <p class="text-yellow-400/70 text-md">
+        Use your Coins to upgrade your servers by purchasing resources!
+      </p>
+    </div>
+
+    <!-- Breadcrumb -->
+    <nav
+      aria-label="Breadcrumb"
+      class="inline-flex py-2 px-4 rounded-xl
+             bg-yellow-500/10 border border-yellow-500/20">
+
+      <ol class="flex items-center space-x-2">
+
+        <li>
+          <a
+            href="/"
+            class="text-sm flex items-center gap-2
+                   text-yellow-300/70 hover:text-yellow-300 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"
+              class="size-4">
+              <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+              <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+              <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+            </svg>
+            Home
+          </a>
+        </li>
+
+        <li class="text-yellow-500/50">›</li>
+
+        <li>
+          <span class="text-sm font-medium text-yellow-300">
+            Store | Coins: <%= coins %>
+          </span>
+        </li>
+
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Store Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
+
+    <!-- RAM -->
+    <div
+      class="rounded-2xl p-8
+             bg-[#14110a] border border-yellow-500/20
+             hover:border-yellow-500/40 transition">
+
+      <h3 class="text-xl font-semibold text-yellow-300 mb-2">
+        RAM
+      </h3>
+
+      <p class="text-yellow-400/70 mb-6">
+        Upgrade your server's memory
+      </p>
+
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-lg font-medium text-white">
+          150 Coins / GB
+        </span>
+      </div>
+
+      <button
+        @click="buyRAM()"
+        class="w-full py-2 rounded-full
+               font-semibold text-neutral-900
+               bg-yellow-400 hover:bg-yellow-500
+               transition-all hover:scale-95
+               shadow-lg shadow-yellow-500/20">
+        Buy RAM
+      </button>
+    </div>
+
+    <!-- CPU -->
+    <div
+      class="rounded-2xl p-8
+             bg-[#14110a] border border-yellow-500/20
+             hover:border-yellow-500/40 transition">
+
+      <h3 class="text-xl font-semibold text-yellow-300 mb-2">
+        CPU
+      </h3>
+
+      <p class="text-yellow-400/70 mb-6">
+        Boost your processing power
+      </p>
+
+      <div class="flex justify-between items-center mb-6">
+        <span class="text-lg font-medium text-white">
+          200 Coins / Core
+        </span>
+      </div>
+
+      <button
+        @click="buyCPU()"
+        class="w-full py-2 rounded-full
+               font-semibold text-neutral-900
+               bg-amber-500 hover:bg-amber-600
+               transition-all hover:scale-95
+               shadow-lg shadow-amber-500/20">
+        Buy CPU
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<script>
+function store() {
+  return {
+    ram: 1,
+    cpu: 1,
+
+    buyRAM() {
+      window.location.href = '/buyresource/ram'
+    },
+
+    buyCPU() {
+      window.location.href = '/buyresource/cpu'
+    }
+  }
+}
+</script>
+
+<%- include('./components/footer') %>

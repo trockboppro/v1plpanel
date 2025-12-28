@@ -1,0 +1,45 @@
+<%- include('components/template') %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.js"></script>
+
+<main id="content" class="fade-in">
+
+  <!-- Header -->
+  <div class="bg-transparent">
+    <div class="sm:flex sm:items-center px-8 pt-4">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-medium leading-6 text-yellow-400">
+          <%= req.translations.manageInstance %>
+        </h1>
+        <p class="mt-1 tracking-tight text-sm text-yellow-400/60">
+          <%= req.translations.instanceViewDetailText %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instance block -->
+  <%- include('components/instance') %>
+
+  <!-- Error Section -->
+  <div class="px-8 mt-10">
+    <h1 class="text-yellow-500 font-mono tracking-widest text-sm mb-1">
+      <%= req.translations.fivezerozeroInstanceError %>
+    </h1>
+
+    <p class="text-white font-medium text-xl mt-3">
+      <%= req.translations.somethingWentWrongThere %>
+    </p>
+
+    <div class="mt-4 rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3">
+      <p class="text-yellow-300 text-sm">
+        <%= req.translations.returnedTextError %>
+      </p>
+      <code class="block mt-1 text-yellow-200 font-mono text-sm break-all">
+        <%= error || req.translations.informationAvailableError %>
+      </code>
+    </div>
+  </div>
+
+</main>
+
+<%- include('components/footer') %>

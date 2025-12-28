@@ -1,0 +1,142 @@
+<%- include('components/template') %>
+
+<main class="flex-grow container mx-auto px-6 py-10 animate-fade-in">
+
+  <!-- Header -->
+  <div class="flex justify-between items-center w-full pb-6">
+
+    <div class="flex flex-col">
+      <h1 class="text-2xl font-bold text-yellow-400 font-[Cabin]">
+        Transfer Coins
+      </h1>
+      <p class="text-yellow-400/70 text-md">
+        Give your friends some coins cause why not?
+      </p>
+    </div>
+
+    <!-- Breadcrumb -->
+    <nav
+      aria-label="Breadcrumb"
+      class="inline-flex py-2 px-4 rounded-xl
+             bg-yellow-500/10 border border-yellow-500/20">
+
+      <ol class="flex items-center space-x-2">
+
+        <li>
+          <a href="/dashboard"
+            class="text-sm flex items-center gap-2
+                   text-yellow-300/70 hover:text-yellow-300 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-4"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+            </svg>
+            Home
+          </a>
+        </li>
+
+        <li class="text-yellow-500/50">›</li>
+
+        <li class="text-sm font-medium text-yellow-300">
+          Transfer
+        </li>
+
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Transfer Card -->
+  <div class="mt-20 flex justify-center">
+    <div
+      class="w-full max-w-md text-center
+             bg-[#14110a] border border-yellow-500/20
+             rounded-2xl p-8 shadow-xl">
+
+      <!-- Icon -->
+      <div class="mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-16 w-16 mx-auto
+                 text-yellow-400
+                 bg-yellow-500/10 p-3 rounded-xl
+                 border border-yellow-500/20"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12
+               59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+        </svg>
+      </div>
+
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2">
+        Transfer
+      </h2>
+      <p class="text-yellow-400/70 mb-6">
+        Send coins to other users on the platform
+      </p>
+
+      <!-- Form -->
+      <div class="space-y-4">
+
+        <div>
+          <label class="block text-sm font-medium text-yellow-300 mb-1">
+            Coins
+          </label>
+          <input
+            type="number"
+            id="coins"
+            class="w-full px-4 py-2 rounded-full
+                   bg-black/40 text-yellow-200
+                   border border-yellow-500/20
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+            placeholder="Enter coins">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-yellow-300 mb-1">
+            Receiver Email
+          </label>
+          <input
+            type="email"
+            id="receiver-email"
+            class="w-full px-4 py-2 rounded-full
+                   bg-black/40 text-yellow-200
+                   border border-yellow-500/20
+                   focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+            placeholder="Enter receiver email">
+        </div>
+
+      </div>
+
+      <div class="border-t border-yellow-500/10 mt-6 pt-6">
+        <button
+          onclick="sendcoins()"
+          class="w-full py-2 rounded-full
+                 font-semibold text-neutral-900
+                 bg-yellow-400 hover:bg-yellow-500
+                 transition-all hover:scale-95
+                 shadow-lg shadow-yellow-500/30">
+          Transfer
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+function sendcoins() {
+  const email = document.getElementById('receiver-email').value;
+  const coins = document.getElementById('coins').value;
+
+  if (!email || !coins) {
+    alert('Email and Coins Input is Required');
+    return;
+  }
+
+  window.location.href = `/transfercoins?coins=${coins}&email=${email}`;
+}
+</script>
+
+<%- include('./components/footer') %>

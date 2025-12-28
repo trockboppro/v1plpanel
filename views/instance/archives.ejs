@@ -1,0 +1,118 @@
+<%- include('../components/template') %>
+
+<main id="content" class="min-h-screen text-yellow-100">
+
+  <%- include('../components/instance') %>
+
+  <!-- Backups Card -->
+  <div class="bg-[#14110a] border border-yellow-500/20 rounded-2xl p-6 mb-6 shadow-xl shadow-yellow-500/5">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-yellow-300">Backups</h2>
+
+      <button
+        onclick="createArchive()"
+        class="bg-yellow-400 hover:bg-yellow-500
+               text-neutral-900 font-medium
+               py-1.5 px-5 rounded-full
+               shadow-lg shadow-yellow-500/30
+               hover:scale-95 transition">
+        Create Backup
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-3">
+
+      <% if (archives.length === 0) { %>
+        <!-- Empty State -->
+        <div class="text-center py-10">
+          <div class="w-16 h-16 mx-auto mb-4
+                      bg-yellow-500/10 border border-yellow-500/20
+                      rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none" viewBox="0 0 24 24"
+                 stroke-width="1.5" stroke="currentColor"
+                 class="w-10 h-10 text-yellow-400">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25" />
+            </svg>
+          </div>
+
+          <h3 class="text-lg font-medium text-yellow-300 mb-2">
+            No Backups Found
+          </h3>
+          <p class="text-yellow-400/60">
+            Create your first backup to protect your server data
+          </p>
+        </div>
+      <% } else { %>
+
+      <% archives.forEach(function(archive) { %>
+        <%
+          let fullName = archive.name.replace(req.params.id + '-', '');
+          let [hash, ...rest] = fullName.split('-');
+          let shortHash = hash.slice(0, 7) + '...' + hash.slice(-4);
+          let shortName = [shortHash, ...rest].join('-');
+        %>
+
+        <!-- Backup Row -->
+        <div
+          class="flex items-center gap-3 w-full
+                 bg-black/30 border border-yellow-500/10
+                 rounded-xl px-4 py-3
+                 hover:border-yellow-500/40
+                 transition">
+
+          <!-- Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24"
+               stroke-width="1.5" stroke="currentColor"
+               class="w-5 h-5 text-yellow-400 flex-shrink-0">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5" />
+          </svg>
+
+          <!-- Name -->
+          <span class="flex-grow text-yellow-200 font-medium">
+            <%= shortName %>
+          </span>
+
+          <!-- Size & Date -->
+          <span class="text-yellow-400/60 text-sm">
+            <%= archive.size %>
+          </span>
+
+          <span class="text-yellow-400/60 text-sm">
+            <%= archive.lastUpdated %>
+          </span>
+
+          <!-- Restore -->
+          <button
+            onclick="restoreArchive('<%= archive.name %>')"
+            class="bg-yellow-500/80 hover:bg-yellow-500
+                   text-neutral-900 text-sm font-medium
+                   py-1 px-4 rounded-full
+                   hover:scale-95 transition">
+            Restore
+          </button>
+
+          <!-- Delete -->
+          <button
+            onclick="deleteArchive('<%= archive.name %>')"
+            class="bg-red-600/80 hover:bg-red-600
+                   text-white text-sm font-medium
+                   py-1 px-4 rounded-full
+                   hover:scale-95 transition">
+            Delete
+          </button>
+        </div>
+
+      <% }); %>
+      <% } %>
+    </div>
+  </div>
+</main>
+
+<%- include('../components/footer') %>

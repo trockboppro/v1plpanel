@@ -1,0 +1,197 @@
+<%- include('../components/template') %>
+
+<main id="content" class="min-h-screen text-yellow-100">
+
+  <!-- Header -->
+  <div class="bg-transparent">
+    <div class="sm:flex sm:items-center px-8 pt-4">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-medium leading-6 text-yellow-300">
+          Manage Instance
+        </h1>
+        <p class="mt-1 tracking-tight text-sm text-yellow-400/60">
+          View, update, and manage an instance on the <%= name %> panel.
+        </p>
+      </div>
+
+      <!-- Create DB Button -->
+      <div class="mt-4 sm:ml-8 sm:mt-0 sm:flex-none">
+        <button
+          id="createDatabaseButton"
+          type="button"
+          class="rounded-xl
+                 bg-yellow-400 hover:bg-yellow-500
+                 text-neutral-900 font-medium
+                 px-4 py-2 text-sm
+                 shadow-lg shadow-yellow-500/30
+                 hover:scale-95 transition"
+        >
+          Create Database
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div
+    id="createDatabaseModal"
+    class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center
+           opacity-0 pointer-events-none transition-opacity duration-300"
+  >
+    <div
+      class="bg-[#121212] border border-yellow-500/20 rounded-xl
+             p-8 max-w-md w-full
+             transform scale-95 transition-transform duration-300"
+    >
+      <h2 class="text-2xl font-semibold text-yellow-300 mb-1">
+        Create Database
+      </h2>
+      <p class="text-yellow-400/60 mb-6">
+        Enter the name of the database you want to create.
+      </p>
+
+      <form
+        id="createDatabaseForm"
+        action="/instance/<%= req.params.id %>/db/create"
+        method="POST"
+        class="space-y-4"
+      >
+        <input
+          type="text"
+          id="databaseNameInput"
+          name="databaseName"
+          placeholder="database_name"
+          required
+          class="w-full rounded-xl
+                 bg-black/40 border border-yellow-500/20
+                 px-4 py-2 text-sm text-yellow-200
+                 placeholder:text-yellow-500/30
+                 focus:border-yellow-500 focus:ring-0
+                 transition"
+        />
+
+        <div class="flex justify-end gap-2">
+          <button
+            type="submit"
+            class="px-5 py-2 rounded-xl
+                   bg-yellow-400 hover:bg-yellow-500
+                   text-neutral-900 font-medium
+                   transition"
+          >
+            Create
+          </button>
+
+          <button
+            type="button"
+            id="closeCreateDatabaseModal"
+            class="px-5 py-2 rounded-xl
+                   bg-neutral-700 hover:bg-neutral-600
+                   text-yellow-200
+                   transition"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <%- include('../components/instance') %>
+
+  <!-- Database Table -->
+  <div class="px-4 sm:px-6 lg:px-8 mt-6">
+    <div class="overflow-hidden rounded-xl border border-yellow-500/10">
+      <table class="min-w-full table-auto">
+        <thead class="bg-yellow-500/5 text-yellow-300">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-medium">Host</th>
+            <th class="px-6 py-3 text-left text-sm font-medium">User</th>
+            <th class="px-6 py-3 text-left text-sm font-medium">Password</th>
+            <th class="px-6 py-3 text-left text-sm font-medium">Database</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% databases.forEach(function(database) { %>
+            <tr class="hover:bg-yellow-500/5 transition">
+              <td class="px-6 py-4 font-mono text-sm text-yellow-200">
+                <%= database.host %>
+              </td>
+              <td class="px-6 py-4 text-sm text-yellow-200">
+                <%= database.userName %>
+              </td>
+              <td class="px-6 py-4 text-sm text-yellow-300">
+                <span
+                  class="cursor-pointer select-none"
+                  style="filter: blur(5px)"
+                  onclick="navigator.clipboard.writeText('<%- database.password %>')"
+                  onmouseover="this.style.filter='none'"
+                  onmouseout="this.style.filter='blur(5px)'"
+                >
+                  <%= database.password %>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-yellow-200">
+                <%= database.dbName %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<%- include('../components/footer') %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const createDatabaseButton = document.getElementById("createDatabaseButton");
+  const createDatabaseModal = document.getElementById("createDatabaseModal");
+  const closeCreateDatabaseModalButton = document.getElementById("closeCreateDatabaseModal");
+
+  function openModal() {
+    createDatabaseModal.classList.remove("opacity-0", "pointer-events-none");
+    createDatabaseModal.querySelector("div").classList.remove("scale-95");
+    createDatabaseModal.querySelector("div").classList.add("scale-100");
+  }
+
+  function closeModal() {
+    createDatabaseModal.classList.add("opacity-0", "pointer-events-none");
+    createDatabaseModal.querySelector("div").classList.remove("scale-100");
+    createDatabaseModal.querySelector("div").classList.add("scale-95");
+  }
+
+  createDatabaseButton.addEventListener("click", openModal);
+  closeCreateDatabaseModalButton.addEventListener("click", closeModal);
+
+  window.addEventListener("click", function (event) {
+    if (event.target === createDatabaseModal) closeModal();
+  });
+
+  createDatabaseModal.querySelector("div").addEventListener("click", function (e) {
+    e.stopPropagation();
+  });
+
+  const createDatabaseForm = document.getElementById("createDatabaseForm");
+  createDatabaseForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const databaseName = document.getElementById("databaseNameInput").value;
+    const actionUrl = createDatabaseForm.action + "/" + encodeURIComponent(databaseName);
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = actionUrl;
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "databaseName";
+    input.value = databaseName;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+  });
+});
+</script>

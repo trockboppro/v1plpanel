@@ -1,0 +1,221 @@
+<%- include('../components/template') %>
+
+<!-- Thư viện -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"
+    integrity="sha512-2PRgAav8Os8vLcOAh1gSaDoNLe1fAyq8/G3QSdyjFFD+OqNjLeHE/8q4+S4MEZgPsuo+itHopj+hJvqS8XUQ8A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.css"
+    integrity="sha512-iLYuqv+v/P4u9erpk+KM83Ioe/l7SEmr7wB6g+Kg1qmEit8EShDKnKtLHlv2QXUp7GGJhmqDI+1PhJYLTsfb8w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/attach/attach.min.js"
+    integrity="sha512-43J76SR5UijcuJTzs73z8NpkyWon8a8EoV+dX6obqXW7O26Yb268H2vP6EiJjD7sWXqxS3G/YOqPyyLF9fmqgA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/fit/fit.min.js"
+    integrity="sha512-+wh8VA1djpWk3Dj9/IJDu6Ufi4vVQ0zxLv9Vmfo70AbmYFJm0z3NLnV98vdRKBdPDV4Kwpi7EZdr8mDY9L8JIA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+<style>
+canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.xterm-viewport {
+    overflow-y: hidden !important;
+}
+
+.console-line {
+    padding: 4px 6px;
+    margin: 1px 0;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.console-line:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.console-line-content {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.console-line-info {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.5;
+    font-size: 0.7rem;
+    transition: opacity 0.2s ease;
+}
+
+.console-line:hover .console-line-info {
+    opacity: 1;
+}
+</style>
+
+<script>
+// ALERT SYSTEM
+function showAlert(type, title, message) {
+    const alertContainer = document.getElementById('alert-container');
+    const alertElement = document.createElement('div');
+    alertElement.className = `p-4 rounded-2xl ${type === 'error' ? 'bg-red-600 text-white' : 'bg-emerald-500 text-white'} fade-in`;
+    alertElement.innerHTML = `
+        <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            <h3 class="text-lg font-medium">${title}</h3>
+        </div>
+        <p class="mt-2 text-sm">${message}</p>
+    `;
+    alertContainer.appendChild(alertElement);
+    setTimeout(() => {
+        alertElement.classList.add('fade-out');
+        setTimeout(() => alertContainer.removeChild(alertElement), 500);
+    }, 5000);
+}
+
+// EULA POPUP
+const eulaPopupHTML = `
+<div id="eula-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-[#1b1d21] p-10 rounded-2xl shadow-xl max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4 text-white heavy">Minecraft EULA Agreement</h2>
+        <p class="text-gray-300 mb-6">You need to agree to the Minecraft End User License Agreement (EULA) to run this server.</p>
+        <div class="flex justify-end space-x-2.5">
+            <button id="decline-eula" class="px-4 py-2 bg-red-600 text-white rounded-l-xl rounded-r-lg hover:bg-red-700 transition-colors">Decline</button>
+            <button id="accept-eula" class="px-4 py-2 bg-emerald-600 text-white rounded-r-xl rounded-l-lg hover:bg-emerald-700 transition-colors">Accept</button>
+        </div>
+    </div>
+</div>`;
+document.body.insertAdjacentHTML('beforeend', eulaPopupHTML);
+
+function showEulaPopup() {
+    const popup = document.getElementById('eula-popup');
+    popup.classList.remove('hidden');
+    popup.classList.add('flex');
+}
+function hideEulaPopup() {
+    const popup = document.getElementById('eula-popup');
+    popup.classList.add('hidden');
+    popup.classList.remove('flex');
+}
+
+document.getElementById('accept-eula').addEventListener('click', acceptEula);
+document.getElementById('decline-eula').addEventListener('click', hideEulaPopup);
+
+async function acceptEula() {
+    const instanceId = "<%= req.params.id %>";
+    try {
+        await fetch(`/instance/${instanceId}/imagefeatures/eula`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' }
+        });
+        hideEulaPopup();
+        showAlert('success', 'EULA Accepted', 'The Minecraft EULA has been accepted, Please Start your server.');
+    } catch (error) {
+        console.error(error);
+        showAlert('error', 'EULA Acceptance Failed', 'An error occurred while accepting the EULA.');
+    }
+}
+
+// TERMINAL
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+const instanceId = '<%= req.params.id %>';
+let ws;
+let term;
+
+function initTerminal() {
+    term = new Terminal({ 
+        cursorBlink: true,
+        theme: {
+            foreground: '#c5c9d1',
+            background: 'rgba(0 0 0 / 0)',
+        }
+    });
+    term.open(document.getElementById('terminal'));
+}
+
+function initWebSocket() {
+    const port = window.location.port ? `:${window.location.port}` : '';
+    ws = new WebSocket(`${protocol}://${window.location.hostname}${port}/console/${instanceId}`);
+
+    ws.onopen = () => console.log('WebSocket connected!');
+    ws.onmessage = (msg) => handleWSMessage(msg);
+    ws.onclose = () => {
+        showAlert('error', 'Connection Lost', 'WebSocket disconnected, retrying...');
+        setTimeout(initWebSocket, 2000);
+    };
+    ws.onerror = () => {
+        showAlert('error', 'Connection Lost', 'WebSocket error, retrying...');
+        setTimeout(initWebSocket, 5000);
+    };
+}
+
+function handleWSMessage(msg) {
+    const lines = msg.data.split('\n');
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+
+        term.write(trimmed + '\r\n');
+
+        if (trimmed.includes("Failed to load eula.txt")) showEulaPopup();
+        if (trimmed.includes("<%= instance.imageData.StartedMessage %>")) {
+            term.write('\n\u001b[1m\u001b[33m[PANEL] Server marked as Started\r\n');
+        }
+    });
+}
+
+// SEND COMMAND
+function sendCommand() {
+    const input = document.getElementById('console-input');
+    const cmd = input.value.trim();
+    if (!cmd || !ws) return;
+    ws.send(JSON.stringify({ event: 'cmd', command: cmd, containerId: instanceId }));
+    input.value = '';
+}
+
+// PLAYER ACTIONS
+function playeraction(action) {
+    const playername = document.getElementById('playername').value.trim();
+    if (!playername || !ws) return;
+    ws.send(JSON.stringify({ event: 'cmd', command: `${action} ${playername}`, containerId: instanceId }));
+    showAlert('success', 'Action Executed', `Player ${playername} has been ${action}`);
+}
+
+// POWER BUTTONS
+['start', 'stop', 'restart'].forEach(action => {
+    const btn = document.getElementById(`${action}Button`);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        if (!ws) return;
+        const cmd = action === 'stop' ? 'stop' : null;
+        ws.send(JSON.stringify({ event: cmd ? 'cmd' : `power:${action}`, command: cmd, containerId: instanceId }));
+        showAlert('success', 'Action Executed', `Server is ${action}ing...`);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    initTerminal();
+    initWebSocket();
+    <% if (Array.isArray(files) && files.length > 0 && !files.some(file => file.name === 'eula.txt')) { %>
+        <% if (instance.imageData.features && instance.imageData.features.includes('eula')) { %>
+            showEulaPopup();
+        <% } %>
+    <% } %>
+});
+</script>
+
+<main class="flex-grow container mx-auto px-4 py-8 transition-all">
+    <%- include('../components/instance') %>
+    <div id="alert-container" class="mb-4 space-y-2"></div>
+</main>

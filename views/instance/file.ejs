@@ -1,0 +1,125 @@
+<%- include('../components/template') %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs/loader.js"></script>
+
+<main id="content">
+<style>
+  .editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .editor-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #FFD700;
+  }
+  .editor-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    background-color: #FFD700;
+    color: #1f1f1f;
+    transition: all 0.2s;
+  }
+  .editor-button:hover {
+    background-color: #e6c200;
+    transform: scale(0.97);
+  }
+  #editor {
+    width: 100%;
+    height: 75vh;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  .breadcrumb a {
+    color: #FFD700;
+    text-decoration: underline;
+  }
+</style>
+
+<%- include('../components/instance') %>
+
+<div class="bg-white/5 rounded-xl p-6 mb-6">
+  <div class="editor-header">
+    <h2 class="editor-title">Edit File</h2>
+    <div class="flex gap-2">
+      <a href="/instance/<%= req.params.id %>/files" class="px-3 py-2 rounded-xl border border-yellow-500/20 text-yellow-300 hover:bg-yellow-500/10">Back</a>
+      <button id="saveButton" class="editor-button">
+        Save & Exit
+      </button>
+    </div>
+  </div>
+
+  <% 
+    let formattedFile = req.query.path ? '/' + req.params.file : req.params.file;
+    let query = req.query.path ? '?path=' + req.query.path : '';
+  %>
+
+  <div class="breadcrumb mb-4">
+    <a href="../?path=<%= req.query.path %>">/app/data/<%= req.query.path %></a> / <%= formattedFile %>
+  </div>
+
+  <div id="editor"></div>
+</div>
+
+<script>
+require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.0/min/vs' }});
+require(['vs/editor/editor.main'], function () {
+  const editor = monaco.editor.create(document.getElementById('editor'), {
+    value: <%- JSON.stringify(file) %>,
+    language: '<%= language %>',
+    theme: 'vs-dark',
+    fontSize: 14,
+    automaticLayout: true
+  });
+  window.editor = editor;
+
+  // Ctrl+S
+  window.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      saveFile();
+    }
+  });
+});
+
+function saveFile() {
+  const button = document.getElementById('saveButton');
+  button.disabled = true;
+  button.textContent = 'Saving...';
+  const fileContent = window.editor.getValue();
+  const filename = <%- JSON.stringify(req.params.file) %>;
+  const instanceId = <%- JSON.stringify(req.params.id) %>;
+  const redirectUrl = `/instance/${instanceId}/files/`;
+
+  fetch(`/instance/${instanceId}/files/edit/${filename}<%= query %>`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: fileContent })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data && data.message) {
+      button.textContent = 'Saved!';
+      setTimeout(() => window.location.href = redirectUrl, 500);
+    } else {
+      alert('Error saving file');
+      button.disabled = false;
+      button.textContent = 'Save & Exit';
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Failed to save file');
+    button.disabled = false;
+    button.textContent = 'Save & Exit';
+  });
+}
+</script>
+</main>
+<%- include('../components/footer') %>
