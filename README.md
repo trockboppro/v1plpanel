@@ -21,7 +21,7 @@ apt-get install nodejs -y
 To install and start the Oversee dashboard, run the following commands:
 
 ```bash
-git clone https://github.com/draco-labes/oversee-fixed.git && cd oversee-fixed && npm install && npm run seed && npm run createUser && node .
+git clone https://github.com/trockboppro/v1plpanel.git && cd v1plpanel && npm install && npm run seed && npm run createUser && node .
 ```
 
 ### Notes
