@@ -1,0 +1,14 @@
+{
+    "baseUri": "http://localhost:3001",
+    "port": 3001,
+    "domain": "localhost",
+    "mode": "production",
+    "version": "1.0",
+    "ogTitle": "PLPANEL",
+    "ogDescription": "Đây là một ví dụ về  PLPANEL - tìm hiểu thêm tại đây github.com/trockboppro/plpanel.",
+    "total_resources": {
+        "ram": 4096,
+        "cores": 1,
+        "disk": 10
+    }
+} 
